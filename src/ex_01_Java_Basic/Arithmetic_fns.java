@@ -13,6 +13,6 @@ public class Arithmetic_fns {
         //\s-space
 //        \t-tab
         // int everything in single line
-        System.out.println("Have a nice day-10/03/25");
+        System.out.println("Have a nice day");
     }
 }
