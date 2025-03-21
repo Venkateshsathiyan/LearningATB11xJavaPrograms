@@ -11,7 +11,6 @@ public class fibanocci_series_20_3 {
         num=sc.nextInt();
         System.out.println(n1);
         System.out.println(n2);
-
         for (int i=0;i<num;i++)
         {
 
