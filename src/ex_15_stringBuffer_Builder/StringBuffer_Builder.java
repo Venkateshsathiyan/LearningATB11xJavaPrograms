@@ -1,4 +1,4 @@
-package ex_14_Strings;
+package ex_15_stringBuffer_Builder;
 
 public class StringBuffer_Builder {
     public static void main(String[] args) {
