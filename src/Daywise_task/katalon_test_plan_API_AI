@@ -1,0 +1,86 @@
+Test Plan for CURA Healthcare Demo Site APIs
+✅ Scope
+This test plan covers two main endpoints:
+1.	Login API – Simulates user authentication
+2.	Make Appointment API – Allows a logged-in user to create an appointment
+________________________________________
+🧾 Assumptions
+•	API follows RESTful standards
+•	Token-based authentication (e.g., JWT or session cookies)
+•	Headers use Content-Type: application/json
+________________________________________
+1. 🔐 Login API
+Endpoint
+POST /api/login (assumed)
+Request Body
+json
+CopyEdit
+{
+  "username": "JohnDoe",
+  "password": "ThisIsNotAPassword"
+}
+Expected Response
+json
+CopyEdit
+{
+  "token": "eyJhbGci...abc",
+  "user": {
+    "id": 1,
+    "username": "JohnDoe"
+  }
+}
+________________________________________
+🧪 Test Cases
+Test Case ID	Test Description	Input	Expected Result
+TC_LOGIN_01	Valid credentials	Valid username/password	Returns 200 OK and token
+TC_LOGIN_02	Invalid password	Valid username + wrong password	401 Unauthorized
+TC_LOGIN_03	Invalid username	Wrong username + any password	401 Unauthorized
+TC_LOGIN_04	Empty request	{}	400 Bad Request
+TC_LOGIN_05	Missing fields	{ "username": "JohnDoe" }	400 Bad Request
+TC_LOGIN_06	SQL Injection attempt	username: ' OR '1'='1, password: ' OR '1'='1	401 or 400 with safe handling
+TC_LOGIN_07	Invalid method	GET instead of POST	405 Method Not Allowed
+________________________________________
+2. 📅 Make Appointment API
+Endpoint
+POST /api/appointment (assumed)
+Headers
+makefile
+CopyEdit
+Authorization: Bearer <token>
+Request Body
+json
+CopyEdit
+{
+  "facility": "Tokyo CURA Healthcare Center",
+  "applyHospitalReadmission": true,
+  "healthcareProgram": "Medicaid",
+  "visitDate": "2025-05-01",
+  "comment": "Regular check-up"
+}
+Expected Response
+json
+CopyEdit
+{
+  "appointmentId": 1234,
+  "status": "confirmed"
+}
+________________________________________
+🧪 Test Cases
+Test Case ID	Test Description	Input	            Expected Result
+TC_APPT_01	Valid request	Auth header + valid body	201 Created
+TC_APPT_02	Missing token	Valid body	                401 Unauthorized
+TC_APPT_03	Expired token	Expired JWT	                401 Unauthorized
+TC_APPT_04	Invalid date	visitDate in wrong format	400 Bad Request
+TC_APPT_05	Empty body	{}	                            400 Bad Request
+TC_APPT_06	Special chars in comment	emoji or HTML	201 or properly escaped response
+TC_APPT_07	Invalid healthcare program	invalid value like "XYZ"	400 Bad Request
+________________________________________
+🔁 Integration Flow Test
+Scenario: Login → Use token to make appointment
+Expected: Full flow should work and return appointment ID
+________________________________________
+🛠️ Tools
+•	Postman or Katalon Studio
+•	JMeter for load testing
+•	Newman for CI/CD integration
+
