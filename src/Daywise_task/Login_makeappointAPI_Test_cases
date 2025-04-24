@@ -1,0 +1,23 @@
+Test Cases for Login API
+Test Case ID	Title	                             Test Steps	E                                                           Expected Result	Status
+TC_LOGIN_001	Login with valid credentials	        1. Send POST request to /api/login with valid username/password	200 OK with valid auth token and user info in response	✅
+TC_LOGIN_002	Login with incorrect password	    1. Send POST request with correct username but wrong password	401 Unauthorized with error message	✅
+TC_LOGIN_003	Login with non-existent username	1. Send POST request with invalid username	401 Unauthorized with error message	✅
+TC_LOGIN_004	Login with empty request body	    1. Send POST with empty JSON {}	400 Bad Request	✅
+TC_LOGIN_005	Login with missing username	        1. Send POST with only password	400 Bad Request (missing fields)	✅
+TC_LOGIN_006	Login with SQL injection payload	1. Send payload like "' OR 1=1 --" in username	Should be sanitized, return 401 or 400	✅
+TC_LOGIN_007	Login with GET method	1. Try to access the login endpoint with GET	405 Method Not Allowed	✅
+________________________________________
+✅ Test Cases for Make Appointment API
+Test Case ID	Title	Test Steps	Expected Result	Status
+TC_APPT_001	Make appointment with valid token	1. Login and obtain token
+2. Send POST to /api/appointment with valid body and token	201 Created with appointment ID	✅
+TC_APPT_002	Make appointment without token	1. Send POST to /api/appointment without Authorization header	401 Unauthorized	✅
+TC_APPT_003	Make appointment with expired token	1. Use known expired token in header	401 Unauthorized	✅
+TC_APPT_004	Make appointment with invalid date	1. Use visitDate: "32-13-2025" or wrong format	400 Bad Request	✅
+TC_APPT_005	Make appointment with missing fields	1. Omit required fields like facility	400 Bad Request	✅
+TC_APPT_006	Make appointment with special characters in comment	1. Use emojis or HTML in comment	Should accept or escape input safely	✅
+TC_APPT_007	Make appointment with invalid healthcare program	1. Set healthcareProgram: "InvalidValue"	400 Bad Request	✅
+TC_APPT_008	Make appointment using GET method	1. Try accessing with GET method	405 Method Not Allowed	✅
+________________________________________
+
