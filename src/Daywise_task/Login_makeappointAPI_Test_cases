@@ -1,5 +1,5 @@
 Test Cases for Login API
-Test Case ID	Title	                             Test Steps	E                                                           Expected Result	Status
+Test Case ID	Title	                             Test Steps	                                                          Expected Result	Status
 TC_LOGIN_001	Login with valid credentials	        1. Send POST request to /api/login with valid username/password	200 OK with valid auth token and user info in response	✅
 TC_LOGIN_002	Login with incorrect password	    1. Send POST request with correct username but wrong password	401 Unauthorized with error message	✅
 TC_LOGIN_003	Login with non-existent username	1. Send POST request with invalid username	401 Unauthorized with error message	✅
